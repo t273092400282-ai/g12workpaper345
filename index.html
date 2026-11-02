@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أوراق العمل التفاعلية - بيسك المرئي 2008 | الصف 12</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vbPrimary: '#6366F1',
+                        vbRose: '#EC4899',
+                        vbViolet: '#8B5CF6',
+                        vbAmber: '#F59E0B',
+                        vbBlue: '#0055EA',
+                        ideBar: '#ECE9D8',
+                        ideHeader: '#215dc6'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                        code: ['Consolas', 'Courier New', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #f5f3ff 50%, #eff6ff 100%);
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.12);
+        }
+        .nav-sheet.active {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.35);
+            transform: translateY(-2px);
+        }
+        /* Visual Studio 2008 Visual Mockup Styles */
+        .vs-window {
+            background: #ECE9D8;
+            border: 2px solid #0055ea;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+        .vs-titlebar {
+            background: linear-gradient(to right, #0058e6, #3b88fc);
+            color: white;
+        }
+        .vs-tab-active {
+            background: #ffffff;
+            border-top: 2px solid #e27d00;
+            color: #000;
+            font-weight: bold;
+        }
+        .drag-source {
+            cursor: grab;
+            user-select: none;
+        }
+        .drag-source:active {
+            cursor: grabbing;
+        }
+        .drop-target-active {
+            background-color: #dbeafe !important;
+            border-color: #3b82f6 !important;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificate-print-area, #certificate-print-area * {
+                visibility: visible;
+            }
+            #certificate-print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-16 antialiased selection:bg-pink-500 selection:text-white">
+
+    <!-- Top Student Information Banner -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-purple-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+                
+                <!-- Title & Badge -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-pink-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-pink-200 shrink-0">
+                        <i class="fas fa-laptop-code text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-black text-pink-700 bg-pink-100 px-3 py-0.5 rounded-full">
+                                مادة الحاسوب • الصف الثاني عشر
+                            </span>
+                            <span class="text-[11px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">
+                                الباب الثاني: مراحل بناء برنامج
+                            </span>
+                        </div>
+                        <h1 class="text-lg sm:text-xl font-black bg-gradient-to-r from-purple-800 via-pink-600 to-indigo-700 bg-clip-text text-transparent">
+                            أوراق العمل التفاعلية (3 - 4 - 5) • Visual Basic 2008
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Student Info Inputs -->
+                <div class="flex flex-wrap items-center gap-2 text-xs w-full lg:w-auto">
+                    <div class="flex items-center bg-white px-3 py-1.5 rounded-xl border border-purple-200 shadow-inner flex-1 sm:flex-initial">
+                        <i class="fas fa-user-graduate text-purple-500 ml-2"></i>
+                        <input type="text" id="student-name-input" placeholder="اسم المتعلمة..." oninput="updateStudentHeader()" class="outline-none bg-transparent font-bold w-32 sm:w-40 text-slate-700 placeholder-slate-400">
+                    </div>
+                    <div class="flex items-center bg-white px-3 py-1.5 rounded-xl border border-purple-200 shadow-inner">
+                        <i class="fas fa-school text-pink-500 ml-2"></i>
+                        <input type="text" id="student-class-input" placeholder="الصف (12/...)" oninput="updateStudentHeader()" class="outline-none bg-transparent font-bold w-20 text-slate-700 placeholder-slate-400">
+                    </div>
+                    <div class="flex items-center bg-white px-3 py-1.5 rounded-xl border border-purple-200 shadow-inner hidden sm:flex">
+                        <i class="fas fa-building-columns text-indigo-500 ml-2"></i>
+                        <input type="text" id="student-school-input" placeholder="المدرسة..." oninput="updateStudentHeader()" class="outline-none bg-transparent font-bold w-28 text-slate-700 placeholder-slate-400">
+                    </div>
+                    
+                    <!-- Print Certificate Button -->
+                    <button onclick="openCertificateModal()" class="bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 text-white font-bold px-3 py-2 rounded-xl shadow-md transition flex items-center gap-1.5 text-xs">
+                        <i class="fas fa-award"></i>
+                        <span>تقرير الإنجاز</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Score and Progress Bar -->
+            <div class="mt-3 pt-2 border-t border-purple-100 flex flex-wrap items-center justify-between gap-3">
+                <!-- Navigation Tabs for Worksheets -->
+                <div class="flex flex-wrap gap-2 text-xs font-bold">
+                    <button onclick="switchWorksheet(3)" id="tab-ws3" class="nav-sheet active px-3.5 py-1.5 rounded-xl transition flex items-center gap-1">
+                        <i class="fas fa-th-large"></i> ورقة عمل (3) [الأدوات]
+                    </button>
+                    <button onclick="switchWorksheet(4)" id="tab-ws4" class="nav-sheet bg-white/80 hover:bg-white text-slate-700 px-3.5 py-1.5 rounded-xl transition shadow-sm flex items-center gap-1">
+                        <i class="fas fa-sliders-h"></i> ورقة عمل (4) [الخصائص]
+                    </button>
+                    <button onclick="switchWorksheet(5)" id="tab-ws5" class="nav-sheet bg-white/80 hover:bg-white text-slate-700 px-3.5 py-1.5 rounded-xl transition shadow-sm flex items-center gap-1">
+                        <i class="fas fa-code"></i> ورقة عمل (5) [التعليمات البرمجية]
+                    </button>
+                </div>
+
+                <!-- Cumulative Total Score -->
+                <div class="flex items-center gap-4 text-xs font-bold mr-auto">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-slate-500">الدرجة الكلية:</span>
+                        <span id="total-score-badge" class="px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-700 font-extrabold text-sm font-mono">0 / 100</span>
+                    </div>
+                    <div class="w-32 bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                        <div id="overall-progress-bar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+
+        <!-- ================= WORKSHEET 3: CREATE PROJECT & ADD CONTROLS ================= -->
+        <section id="worksheet-3-pane" class="ws-pane">
+            
+            <!-- Instructions Card -->
+            <div class="glass-panel rounded-3xl p-6 mb-6 border-r-4 border-purple-500 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="bg-purple-600 text-white text-xs font-black px-2.5 py-0.5 rounded-lg">التطبيق العملي الأول</span>
+                            <h2 class="text-xl font-black text-slate-800">ورقة عمل ( 3 ) : إنشاء المشروع وإضافة الأدوات</h2>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                            المطلوب: تشغيل البيسك المرئي 2008، إنشاء حل باسم <strong>"Welcome"</strong>، ثم إضافة كائنات النموذج بالعدد المطلوب: 
+                            <span class="text-purple-700 font-bold">1 زر أمر Button</span>، 
+                            <span class="text-pink-600 font-bold">1 صندوق صورة PictureBox</span>، و
+                            <span class="text-indigo-600 font-bold">4 عناوين Label</span> لتكوين واجهة البرنامج.
+                        </p>
+                    </div>
+
+                    <!-- Step Checklist Counter -->
+                    <div class="bg-purple-50 p-3 rounded-2xl border border-purple-200 flex items-center gap-4 text-xs shrink-0">
+                        <div class="text-center">
+                            <div class="text-[10px] text-slate-500 font-bold">الأدوات المضافة</div>
+                            <div id="ws3-added-counter" class="text-lg font-black text-purple-700 font-mono">0 / 6</div>
+                        </div>
+                        <button onclick="checkWorksheet3Completion()" id="ws3-submit-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-xl transition shadow text-xs flex items-center gap-1">
+                            <i class="fas fa-check"></i> تأكيد ورقة العمل (3)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IDE Simulator Window (Visual Studio 2008) -->
+            <div class="vs-window rounded-2xl overflow-hidden shadow-2xl mb-8">
+                <!-- Window Title -->
+                <div class="vs-titlebar px-3 py-1.5 flex items-center justify-between text-xs font-bold select-none">
+                    <div class="flex items-center gap-2">
+                        <i class="fab fa-windows text-blue-200"></i>
+                        <span>Welcome - Microsoft Visual Basic 2008 Express Edition</span>
+                    </div>
+                    <div class="flex items-center gap-1 text-[11px]">
+                        <span class="px-2 py-0.5 hover:bg-blue-600 rounded">_</span>
+                        <span class="px-2 py-0.5 hover:bg-blue-600 rounded">□</span>
+                        <span class="px-2 py-0.5 hover:bg-red-600 rounded">✕</span>
+                    </div>
+                </div>
+
+                <!-- Menu Bar -->
+                <div class="bg-[#ECE9D8] border-b border-slate-300 px-3 py-1 text-xs text-slate-700 flex items-center space-x-3 space-x-reverse select-none">
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">File</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">Edit</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">View</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">Project</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">Debug</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">Format</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">Tools</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">Window</span>
+                    <span class="hover:bg-blue-100 px-2 py-0.5 rounded cursor-pointer">Help</span>
+                </div>
+
+                <!-- IDE Body (Toolbox on Left, Form Designer in Center, Solution on Right) -->
+                <div class="grid grid-cols-12 bg-slate-300 gap-1 p-1 min-h-[460px]">
+                    
+                    <!-- Left: Toolbox -->
+                    <div class="col-span-12 md:col-span-3 bg-white border border-slate-400 rounded flex flex-col text-xs select-none">
+                        <div class="bg-[#ECE9D8] px-2 py-1 font-bold text-slate-700 border-b border-slate-300 flex justify-between items-center">
+                            <span><i class="fas fa-tools ml-1 text-slate-500"></i> Toolbox (صندوق الأدوات)</span>
+                            <i class="fas fa-thumbtack text-slate-400 text-[10px]"></i>
+                        </div>
+                        
+                        <div class="p-2 space-y-2 overflow-y-auto">
+                            <div class="text-[10px] font-bold text-slate-400 border-b pb-1">اسحبي الأداة للنموذج أو انقري عليها مرتين:</div>
+                            
+                            <!-- Draggable Items -->
+                            <div id="tool-button" draggable="true" ondragstart="handleDragStart(event, 'Button')" onclick="addControlToForm('Button')" class="drag-source p-2 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-400 rounded-xl flex items-center justify-between transition">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">ab</span>
+                                    <span class="font-bold">Button (زر أمر)</span>
+                                </div>
+                                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full text-slate-600 font-bold" id="tool-btn-count">مطلوب: 1</span>
+                            </div>
+
+                            <div id="tool-picturebox" draggable="true" ondragstart="handleDragStart(event, 'PictureBox')" onclick="addControlToForm('PictureBox')" class="drag-source p-2 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-400 rounded-xl flex items-center justify-between transition">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-pink-100 text-pink-700 flex items-center justify-center"><i class="fas fa-image"></i></span>
+                                    <span class="font-bold">PictureBox (صندوق صورة)</span>
+                                </div>
+                                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full text-slate-600 font-bold" id="tool-pic-count">مطلوب: 1</span>
+                            </div>
+
+                            <div id="tool-label" draggable="true" ondragstart="handleDragStart(event, 'Label')" onclick="addControlToForm('Label')" class="drag-source p-2 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-400 rounded-xl flex items-center justify-between transition">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xs">A</span>
+                                    <span class="font-bold">Label (عنوان)</span>
+                                </div>
+                                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full text-slate-600 font-bold" id="tool-lbl-count">مطلوب: 4</span>
+                            </div>
+
+                            <div class="mt-4 p-2.5 rounded-xl bg-purple-50 border border-purple-200 text-[11px] text-purple-900 leading-relaxed">
+                                <i class="fas fa-lightbulb text-amber-500 ml-1"></i>
+                                <strong>طريقة الإضافة:</strong> يمكنك النقر المزدوج على الأداة أو سحبها وإفلاتها مباشرة فوق النموذج Form1.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center: Form Designer Canvas (Drop Target) -->
+                    <div class="col-span-12 md:col-span-6 bg-slate-200/80 p-4 flex flex-col items-center justify-center border border-slate-400 rounded overflow-hidden">
+                        
+                        <!-- The Form Container -->
+                        <div id="ws3-form-dropzone" 
+                             ondragover="handleDragOver(event)" 
+                             ondragleave="handleDragLeave(event)" 
+                             ondrop="handleDrop(event)"
+                             class="bg-[#ECE9D8] border-2 border-blue-600 rounded-sm shadow-xl w-full max-w-[340px] min-h-[380px] flex flex-col relative transition duration-200">
+                            
+                            <!-- Form Title Bar -->
+                            <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white px-2.5 py-1 text-xs font-bold flex items-center justify-between select-none">
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fab fa-windows text-[10px]"></i>
+                                    <span>Form1</span>
+                                </div>
+                                <div class="flex items-center gap-1 text-[10px]">
+                                    <span class="w-4 h-4 bg-blue-600 flex items-center justify-center">_</span>
+                                    <span class="w-4 h-4 bg-blue-600 flex items-center justify-center">□</span>
+                                    <span class="w-4 h-4 bg-red-600 flex items-center justify-center">✕</span>
+                                </div>
+                            </div>
+
+                            <!-- Inside Form Canvas: Target Slots -->
+                            <div class="flex-1 p-3 flex flex-col items-center justify-between relative" id="ws3-canvas-body">
+                                
+                                <!-- Drop slot 1: PictureBox Area -->
+                                <div id="slot-picturebox" class="w-28 h-20 border-2 border-dashed border-slate-400 rounded flex flex-col items-center justify-center text-slate-400 text-xs transition p-1">
+                                    <i class="fas fa-image text-2xl mb-1"></i>
+                                    <span>مكان PictureBox</span>
+                                </div>
+
+                                <!-- Labels Area -->
+                                <div class="w-full flex flex-col items-center space-y-2 my-2">
+                                    <!-- Label 1 slot -->
+                                    <div id="slot-label1" class="border-2 border-dashed border-slate-400 px-4 py-1 rounded text-xs text-slate-400">
+                                        مكان تسمية الوقت (Label1)
+                                    </div>
+                                    <!-- Label 2 slot -->
+                                    <div id="slot-label2" class="border-2 border-dashed border-slate-400 px-4 py-1 rounded text-xs text-slate-400">
+                                        مكان الوقت الفعلي (Label2)
+                                    </div>
+                                    <!-- Label 3 slot -->
+                                    <div id="slot-label3" class="border-2 border-dashed border-slate-400 px-4 py-1 rounded text-xs text-slate-400">
+                                        مكان تسمية التاريخ (Label3)
+                                    </div>
+                                    <!-- Label 4 slot -->
+                                    <div id="slot-label4" class="border-2 border-dashed border-slate-400 px-4 py-1 rounded text-xs text-slate-400">
+                                        مكان التاريخ الفعلي (Label4)
+                                    </div>
+                                </div>
+
+                                <!-- Button slot -->
+                                <div id="slot-button" class="border-2 border-dashed border-slate-400 px-6 py-1.5 rounded text-xs text-slate-400">
+                                    مكان زر الأمر (Button1)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Clear / Reset Tools -->
+                        <button onclick="resetWorksheet3Canvas()" class="mt-3 text-[11px] text-slate-500 hover:text-red-600 underline font-bold">
+                            <i class="fas fa-trash-alt ml-1"></i> إعادة تعيين كائنات ورقة عمل (3)
+                        </button>
+                    </div>
+
+                    <!-- Right: Solution Explorer & Instructions -->
+                    <div class="col-span-12 md:col-span-3 bg-white border border-slate-400 rounded flex flex-col text-xs">
+                        <div class="bg-[#ECE9D8] px-2 py-1 font-bold text-slate-700 border-b border-slate-300 flex justify-between items-center">
+                            <span><i class="fas fa-sitemap text-amber-500 ml-1"></i> Solution Explorer</span>
+                            <i class="fas fa-times text-slate-400 text-[10px]"></i>
+                        </div>
+                        <div class="p-2 space-y-2">
+                            <div class="font-mono text-slate-700 font-bold flex items-center gap-1">
+                                <i class="fas fa-cube text-blue-600"></i> Solution 'Welcome' (1 project)
+                            </div>
+                            <div class="mr-4 font-mono text-slate-600 flex items-center gap-1">
+                                <i class="fas fa-folder text-amber-400"></i> Welcome
+                            </div>
+                            <div class="mr-8 font-mono text-blue-700 font-bold bg-blue-50 p-1 rounded border border-blue-200 flex items-center gap-1">
+                                <i class="fas fa-window-maximize text-blue-600"></i> Form1.vb
+                            </div>
+
+                            <hr class="my-2 border-slate-200">
+                            
+                            <div class="text-[11px] font-bold text-slate-600">جدول المطلوب في ورقة عمل (3):</div>
+                            <table class="w-full text-right text-[11px] border border-slate-200">
+                                <thead class="bg-slate-100">
+                                    <tr>
+                                        <th class="p-1 border">الكائن</th>
+                                        <th class="p-1 border">العدد</th>
+                                        <th class="p-1 border">الوصف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-1 border font-bold">Button</td>
+                                        <td class="p-1 border text-center font-bold text-blue-600">1</td>
+                                        <td class="p-1 border">زر أمر</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-1 border font-bold">PictureBox</td>
+                                        <td class="p-1 border text-center font-bold text-pink-600">1</td>
+                                        <td class="p-1 border">صندوق صورة</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-1 border font-bold">Label</td>
+                                        <td class="p-1 border text-center font-bold text-purple-600">4</td>
+                                        <td class="p-1 border">عنوان</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Status Bar -->
+                <div class="bg-[#ECE9D8] px-3 py-1 text-[11px] text-slate-600 border-t border-slate-300 flex justify-between select-none">
+                    <span><i class="fas fa-check-circle text-emerald-600 ml-1"></i> جاهز - تم ضبط مشروع Welcome</span>
+                    <span>ورقة عمل 3</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= WORKSHEET 4: PROPERTIES WINDOW ================= -->
+        <section id="worksheet-4-pane" class="ws-pane hidden">
+            
+            <!-- Instructions Card -->
+            <div class="glass-panel rounded-3xl p-6 mb-6 border-r-4 border-pink-500 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="bg-pink-600 text-white text-xs font-black px-2.5 py-0.5 rounded-lg">التطبيق العملي الثاني</span>
+                            <h2 class="text-xl font-black text-slate-800">ورقة عمل ( 4 ) : ضبط عناصر وخصائص البرنامج</h2>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                            المطلوب: فتح نافذة الخصائص وتعديل خصائص الكائنات:
+                            عنوان النموذج إلى <strong class="text-pink-700">"برنامج التوقيت"</strong>،
+                            Label1 إلى <strong class="text-purple-700">"الوقت الحالي"</strong>،
+                            Label3 إلى <strong class="text-purple-700">"التاريخ الحالي"</strong>،
+                            Button1 إلى <strong class="text-blue-700">"خروج"</strong>،
+                            إدراج صورة الساعة <strong>Clock</strong> لكائن PictureBox1 وضبط نمط الحجم <strong>SizeMode = Zoom</strong>، 
+                            وضبط الخط لكافة العناصر إلى <strong>Tahoma, 10pt, Bold</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Step Checklist Counter -->
+                    <div class="bg-pink-50 p-3 rounded-2xl border border-pink-200 flex items-center gap-4 text-xs shrink-0">
+                        <div class="text-center">
+                            <div class="text-[10px] text-slate-500 font-bold">الخصائص المنجزة</div>
+                            <div id="ws4-props-counter" class="text-lg font-black text-pink-700 font-mono">0 / 6</div>
+                        </div>
+                        <button onclick="checkWorksheet4Completion()" id="ws4-submit-btn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-4 py-2 rounded-xl transition shadow text-xs flex items-center gap-1">
+                            <i class="fas fa-check"></i> تأكيد ورقة العمل (4)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IDE Properties Simulator -->
+            <div class="vs-window rounded-2xl overflow-hidden shadow-2xl mb-8">
+                <!-- Titlebar -->
+                <div class="vs-titlebar px-3 py-1.5 flex items-center justify-between text-xs font-bold select-none">
+                    <div class="flex items-center gap-2">
+                        <i class="fab fa-windows text-blue-200"></i>
+                        <span>Welcome - Microsoft Visual Basic 2008 [Design - Properties Mode]</span>
+                    </div>
+                    <span class="text-[11px] bg-blue-900/60 px-2 py-0.5 rounded">Form1.vb [Design]</span>
+                </div>
+
+                <div class="grid grid-cols-12 bg-slate-300 gap-1 p-1 min-h-[480px]">
+                    
+                    <!-- Left / Center: Form Live Preview -->
+                    <div class="col-span-12 md:col-span-7 bg-slate-200 p-4 flex flex-col items-center justify-center rounded border border-slate-400">
+                        <div class="text-[11px] font-bold text-slate-600 bg-white/80 px-3 py-1 rounded-full mb-3 shadow-sm">
+                            <i class="fas fa-hand-pointer text-pink-600 ml-1"></i> انقري على أي عنصر لتحديده وفتح خصائصه في النافذة يميناً:
+                        </div>
+
+                        <!-- Interactive Form Preview -->
+                        <div id="ws4-form-container" onclick="selectWs4Control('Form1', event)" class="bg-[#ECE9D8] border-2 border-blue-600 rounded-sm shadow-2xl w-full max-w-[340px] min-h-[380px] flex flex-col relative transition duration-200 cursor-pointer">
+                            
+                            <!-- Form Titlebar -->
+                            <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white px-2.5 py-1 text-xs font-bold flex items-center justify-between select-none">
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fab fa-windows text-[10px]"></i>
+                                    <span id="ws4-form-title">Form1</span>
+                                </div>
+                                <div class="flex items-center gap-1 text-[10px]">
+                                    <span class="w-4 h-4 bg-blue-600 flex items-center justify-center">_</span>
+                                    <span class="w-4 h-4 bg-blue-600 flex items-center justify-center">□</span>
+                                    <span class="w-4 h-4 bg-red-600 flex items-center justify-center font-bold">✕</span>
+                                </div>
+                            </div>
+
+                            <!-- Inside Form Canvas -->
+                            <div class="flex-1 p-4 flex flex-col items-center justify-between relative">
+                                
+                                <!-- PictureBox Control -->
+                                <div id="ws4-pic-control" onclick="selectWs4Control('PictureBox1', event)" class="w-28 h-20 bg-slate-300 border-2 border-dashed border-slate-400 rounded flex items-center justify-center overflow-hidden cursor-pointer hover:border-pink-500 p-1 relative group">
+                                    <img id="ws4-clock-img" src="" alt="Clock" class="hidden w-full h-full object-contain">
+                                    <span id="ws4-pic-placeholder" class="text-[10px] text-slate-500 font-bold">PictureBox1 (فارغ)</span>
+                                    <span class="absolute -top-3 -right-2 bg-pink-700 text-white text-[8px] px-1 rounded font-mono hidden group-hover:block">PictureBox1</span>
+                                </div>
+
+                                <!-- Labels Control -->
+                                <div class="w-full flex flex-col items-center space-y-2 my-2">
+                                    <!-- Label1 -->
+                                    <div id="ws4-lbl1" onclick="selectWs4Control('Label1', event)" class="cursor-pointer border border-transparent hover:border-pink-500 px-3 py-0.5 rounded text-xs transition">
+                                        <span id="ws4-lbl1-text">Label1</span>
+                                    </div>
+                                    <!-- Label2 -->
+                                    <div id="ws4-lbl2" onclick="selectWs4Control('Label2', event)" class="cursor-pointer border border-transparent hover:border-pink-500 px-4 py-1 bg-white/70 rounded text-xs font-mono text-slate-600 transition">
+                                        <span id="ws4-lbl2-text">Label2</span>
+                                    </div>
+                                    <!-- Label3 -->
+                                    <div id="ws4-lbl3" onclick="selectWs4Control('Label3', event)" class="cursor-pointer border border-transparent hover:border-pink-500 px-3 py-0.5 rounded text-xs transition">
+                                        <span id="ws4-lbl3-text">Label3</span>
+                                    </div>
+                                    <!-- Label4 -->
+                                    <div id="ws4-lbl4" onclick="selectWs4Control('Label4', event)" class="cursor-pointer border border-transparent hover:border-pink-500 px-4 py-1 bg-white/70 rounded text-xs font-mono text-slate-600 transition">
+                                        <span id="ws4-lbl4-text">Label4</span>
+                                    </div>
+                                </div>
+
+                                <!-- Button1 -->
+                                <div>
+                                    <button id="ws4-btn1" onclick="selectWs4Control('Button1', event)" class="cursor-pointer bg-gradient-to-b from-slate-100 to-slate-200 border border-slate-400 hover:border-pink-500 text-slate-800 text-xs px-6 py-1.5 rounded shadow-sm font-bold transition">
+                                        <span id="ws4-btn1-text">Button1</span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Properties Window Simulator -->
+                    <div class="col-span-12 md:col-span-5 bg-white border border-slate-400 rounded flex flex-col text-xs shadow-inner">
+                        <div class="bg-[#ECE9D8] px-2 py-1 font-bold text-slate-700 border-b border-slate-300 flex justify-between items-center">
+                            <span><i class="fas fa-wrench text-blue-600 ml-1"></i> Properties (نافذة الخصائص)</span>
+                            <span class="text-[10px] text-slate-500 font-bold">Alphabetical</span>
+                        </div>
+
+                        <!-- Object Dropdown -->
+                        <div class="p-2 border-b border-slate-200 bg-slate-50">
+                            <label class="text-[10px] text-slate-500 block mb-0.5 font-bold">الكائن المحدد حالياً:</label>
+                            <select id="ws4-selected-object-select" onchange="selectWs4Control(this.value)" class="w-full font-mono text-xs font-bold border border-slate-300 rounded p-1 bg-white text-blue-900">
+                                <option value="Form1">Form1 System.Windows.Forms.Form</option>
+                                <option value="PictureBox1">PictureBox1 System.Windows.Forms.PictureBox</option>
+                                <option value="Label1">Label1 System.Windows.Forms.Label</option>
+                                <option value="Label2">Label2 System.Windows.Forms.Label</option>
+                                <option value="Label3">Label3 System.Windows.Forms.Label</option>
+                                <option value="Label4">Label4 System.Windows.Forms.Label</option>
+                                <option value="Button1">Button1 System.Windows.Forms.Button</option>
+                            </select>
+                        </div>
+
+                        <!-- Properties List -->
+                        <div class="flex-1 overflow-y-auto p-2 space-y-3" id="ws4-properties-body">
+                            <!-- Injected dynamically based on selected control -->
+                        </div>
+
+                        <!-- Fast Format Action -->
+                        <div class="p-2 bg-pink-50 border-t border-pink-200 flex items-center justify-between">
+                            <span class="text-[10px] font-bold text-pink-900">ميزة سريعة من قائمة Format:</span>
+                            <button onclick="applyCenterInForm()" class="bg-pink-600 hover:bg-pink-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg transition flex items-center gap-1">
+                                <i class="fas fa-arrows-alt-h"></i> توسيط أفقي (Center Horizontally)
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Status Bar -->
+                <div class="bg-[#ECE9D8] px-3 py-1 text-[11px] text-slate-600 border-t border-slate-300 flex justify-between select-none">
+                    <span><i class="fas fa-info-circle text-blue-600 ml-1"></i> اضبطي الخصائص حسب ورقة العمل 4 ثم اضغطي "تأكيد"</span>
+                    <span>ورقة عمل 4</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= WORKSHEET 5: CODE & BUILD ================= -->
+        <section id="worksheet-5-pane" class="ws-pane hidden">
+            
+            <!-- Instructions Card -->
+            <div class="glass-panel rounded-3xl p-6 mb-6 border-r-4 border-indigo-600 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="bg-indigo-600 text-white text-xs font-black px-2.5 py-0.5 rounded-lg">التطبيق العملي الثالث</span>
+                            <h2 class="text-xl font-black text-slate-800">ورقة عمل ( 5 ) : كتابة التعليمات البرمجية وبناء البرنامج</h2>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                            المطلوب: فتح نافذة التعليمات البرمجية (Code Window) وكتابة الأوامر:
+                            1. برمجة زر خروج لإنهاء البرنامج: <code class="font-mono bg-indigo-100 text-indigo-800 px-1 rounded font-bold">End</code>.<br>
+                            2. عرض الوقت الحالي في Label2 عند بدء التشغيل: <code class="font-mono bg-indigo-100 text-indigo-800 px-1 rounded font-bold">Label2.Text = TimeString</code>.<br>
+                            3. عرض التاريخ الحالي في Label4 عند بدء التشغيل: <code class="font-mono bg-indigo-100 text-indigo-800 px-1 rounded font-bold">Label4.Text = DateString</code>.<br>
+                            4. اختبار البرنامج (Debug / F5) وبناء الملف التنفيذي (Build Welcome).
+                        </p>
+                    </div>
+
+                    <!-- Step Checklist Counter -->
+                    <div class="bg-indigo-50 p-3 rounded-2xl border border-indigo-200 flex items-center gap-4 text-xs shrink-0">
+                        <div class="text-center">
+                            <div class="text-[10px] text-slate-500 font-bold">المهام المكتملة</div>
+                            <div id="ws5-tasks-counter" class="text-lg font-black text-indigo-700 font-mono">0 / 4</div>
+                        </div>
+                        <button onclick="checkWorksheet5Completion()" id="ws5-submit-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-xl transition shadow text-xs flex items-center gap-1">
+                            <i class="fas fa-check"></i> تأكيد ورقة العمل (5)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IDE Code Editor & Execution Window -->
+            <div class="vs-window rounded-2xl overflow-hidden shadow-2xl mb-8">
+                <!-- Window Title -->
+                <div class="vs-titlebar px-3 py-1.5 flex items-center justify-between text-xs font-bold select-none">
+                    <div class="flex items-center gap-2">
+                        <i class="fab fa-windows text-blue-200"></i>
+                        <span>Welcome - Microsoft Visual Basic 2008 [Form1.vb*]</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <!-- Debug Button (F5) -->
+                        <button onclick="testRunDebugF5()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-0.5 rounded text-[11px] font-bold flex items-center gap-1 transition shadow">
+                            <i class="fas fa-play text-[10px]"></i> اختبار البرنامج (Debug F5)
+                        </button>
+                        <!-- Build Menu Button -->
+                        <button onclick="buildExecutableWelcome()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-0.5 rounded text-[11px] font-bold flex items-center gap-1 transition shadow">
+                            <i class="fas fa-hammer text-[10px]"></i> Build > Build Welcome
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabs (Form1.vb & Form1.vb [Design]) -->
+                <div class="bg-[#ECE9D8] border-b border-slate-300 px-2 pt-1 flex items-center gap-1 text-xs select-none">
+                    <div class="px-4 py-1 vs-tab-active flex items-center gap-2 rounded-t cursor-pointer">
+                        <i class="fas fa-file-code text-blue-600"></i>
+                        <span>Form1.vb</span>
+                    </div>
+                    <div onclick="switchWorksheet(4)" class="px-4 py-1 bg-slate-200 hover:bg-white text-slate-600 flex items-center gap-2 rounded-t cursor-pointer border-t border-slate-300">
+                        <i class="fas fa-window-maximize text-slate-500"></i>
+                        <span>Form1.vb [Design]</span>
+                    </div>
+                </div>
+
+                <!-- Code Editor Area -->
+                <div class="bg-white p-4 font-code text-xs sm:text-sm text-slate-800 min-h-[380px] overflow-x-auto leading-relaxed divide-y divide-transparent">
+                    <div class="text-blue-700 font-bold">Public Class <span class="text-slate-900">Form1</span></div>
+                    
+                    <!-- Button1_Click Event Block -->
+                    <div class="mr-6 my-3 p-3 bg-slate-50 border-r-4 border-blue-500 rounded-r-lg">
+                        <div class="text-blue-700 font-bold mb-1">
+                            Private Sub <span class="text-slate-900">Button1_Click</span>(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+                        </div>
+                        <div class="mr-6 my-2 flex items-center gap-2">
+                            <span class="text-slate-400 font-mono select-none">// تعليمة إنهاء البرنامج:</span>
+                            <div class="flex items-center gap-2 flex-1 max-w-sm">
+                                <input type="text" id="code-btn-exit" placeholder="اكتبي تعليمة الخروج هنا..." class="border-2 border-indigo-300 focus:border-indigo-600 outline-none px-2 py-1 rounded bg-white font-code font-bold text-blue-900 w-full" oninput="validateCodeLive()">
+                                <button onclick="insertSampleCode('code-btn-exit', 'End')" class="text-[10px] bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-2 py-1 rounded font-bold font-sans">
+                                    مساعدة
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-blue-700 font-bold">End Sub</div>
+                    </div>
+
+                    <!-- Form1_Load Event Block -->
+                    <div class="mr-6 my-3 p-3 bg-slate-50 border-r-4 border-pink-500 rounded-r-lg">
+                        <div class="text-blue-700 font-bold mb-1">
+                            Private Sub <span class="text-slate-900">Form1_Load</span>(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+                        </div>
+                        
+                        <!-- Line 1: TimeString -->
+                        <div class="mr-6 my-2 flex items-center gap-2">
+                            <span class="text-slate-400 font-mono select-none">// تعليمة عرض الوقت الحالي في Label2:</span>
+                            <div class="flex items-center gap-2 flex-1 max-w-md">
+                                <input type="text" id="code-lbl-time" placeholder="Label2.Text = ..." class="border-2 border-indigo-300 focus:border-indigo-600 outline-none px-2 py-1 rounded bg-white font-code font-bold text-blue-900 w-full" oninput="validateCodeLive()">
+                                <button onclick="insertSampleCode('code-lbl-time', 'Label2.Text = TimeString')" class="text-[10px] bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-2 py-1 rounded font-bold font-sans">
+                                    مساعدة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Line 2: DateString -->
+                        <div class="mr-6 my-2 flex items-center gap-2">
+                            <span class="text-slate-400 font-mono select-none">// تعليمة عرض التاريخ الحالي في Label4:</span>
+                            <div class="flex items-center gap-2 flex-1 max-w-md">
+                                <input type="text" id="code-lbl-date" placeholder="Label4.Text = ..." class="border-2 border-indigo-300 focus:border-indigo-600 outline-none px-2 py-1 rounded bg-white font-code font-bold text-blue-900 w-full" oninput="validateCodeLive()">
+                                <button onclick="insertSampleCode('code-lbl-date', 'Label4.Text = DateString')" class="text-[10px] bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-2 py-1 rounded font-bold font-sans">
+                                    مساعدة
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-blue-700 font-bold">End Sub</div>
+                    </div>
+
+                    <div class="text-blue-700 font-bold">End Class</div>
+                </div>
+
+                <!-- Code Editor Console / Errors List -->
+                <div class="bg-[#ECE9D8] border-t border-slate-300 p-2 text-xs">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-slate-700"><i class="fas fa-terminal text-purple-600 ml-1"></i> حالة الأكواد:</span>
+                            <span id="code-status-msg" class="text-slate-600 font-sans">في انتظار إدخال التعليمات البرمجية...</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-[11px] font-sans">
+                            <span class="text-emerald-700 font-bold"><i class="fas fa-check-circle"></i> 0 Errors</span>
+                            <span class="text-amber-700 font-bold"><i class="fas fa-exclamation-triangle"></i> 0 Warnings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= RUNTIME SIMULATION MODAL (DEBUG / F5) ================= -->
+    <div id="debug-runtime-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#ECE9D8] rounded-2xl max-w-sm w-full shadow-2xl border-2 border-blue-600 overflow-hidden transform transition duration-300 scale-95" id="debug-modal-content">
+            <!-- Titlebar -->
+            <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white px-3 py-1.5 flex items-center justify-between text-xs font-bold select-none">
+                <span id="runtime-modal-title">برنامج التوقيت [وضع التشغيل والاختبار F5]</span>
+                <button onclick="closeDebugRuntime()" class="w-5 h-5 bg-red-600 hover:bg-red-700 rounded flex items-center justify-center text-white font-bold">✕</button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5 flex flex-col items-center space-y-4">
+                <div class="w-28 h-20 bg-white rounded border border-slate-400 p-1 flex items-center justify-center overflow-hidden shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=80" alt="Clock" class="w-full h-full object-contain">
+                </div>
+
+                <div class="w-full text-center bg-white/90 p-2.5 rounded-xl border border-slate-300">
+                    <div class="text-xs text-slate-600 font-bold">الوقت الحالي:</div>
+                    <div id="runtime-clock-display" class="text-xl font-black font-mono text-red-600 mt-0.5">--:--:-- --</div>
+                </div>
+
+                <div class="w-full text-center bg-white/90 p-2.5 rounded-xl border border-slate-300">
+                    <div class="text-xs text-slate-600 font-bold">التاريخ الحالي:</div>
+                    <div id="runtime-date-display" class="text-sm font-black font-mono text-red-600 mt-0.5">----/--/--</div>
+                </div>
+
+                <button onclick="closeDebugRuntime(true)" class="bg-gradient-to-b from-slate-100 to-slate-200 border border-slate-400 hover:border-red-500 text-slate-800 text-xs px-8 py-2 rounded-lg font-bold shadow transition active:translate-y-0.5">
+                    خروج (End)
+                </button>
+
+                <p class="text-[10px] text-slate-500 text-center border-t border-slate-300 pt-2 w-full">
+                    ✨ هذا البرنامج يستقي بياناته تلقائياً من ساعة الحاسوب عبر التعليمات البرمجية <code class="text-pink-600 font-bold">TimeString</code> و <code class="text-pink-600 font-bold">DateString</code>!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CERTIFICATE & REPORT MODAL ================= -->
+    <div id="certificate-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden relative border-4 border-purple-200">
+            <!-- Modal Header -->
+            <div class="p-4 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-award text-2xl text-amber-300"></i>
+                    <h3 class="font-black text-lg">تقرير إنجاز أوراق العمل الحاسوبية</h3>
+                </div>
+                <button onclick="closeCertificateModal()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-bold">✕</button>
+            </div>
+
+            <!-- Certificate Body (Print Area) -->
+            <div id="certificate-print-area" class="p-6 sm:p-8 bg-gradient-to-b from-purple-50/50 to-pink-50/50 text-slate-800 relative">
+                
+                <div class="border-4 border-double border-purple-300 p-6 rounded-2xl bg-white/90 text-center relative shadow-sm">
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-500 border-b pb-2 mb-4">
+                        <span id="cert-school-disp">وزارة التربية • مادة الحاسوب</span>
+                        <span>الصف الثاني عشر - الباب الثاني</span>
+                    </div>
+
+                    <div class="w-16 h-16 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-3xl mx-auto mb-2 shadow-inner">
+                        <i class="fas fa-star"></i>
+                    </div>
+
+                    <h4 class="text-2xl font-black text-purple-900 mb-1">شهادة تفوق وإنجاز عملي</h4>
+                    <p class="text-xs text-slate-600 mb-4">تشهد المنصة التفاعلية بأن طالبة الصف الثاني عشر المتميزة:</p>
+                    
+                    <div class="text-xl sm:text-2xl font-black text-pink-600 bg-pink-50 py-2 px-6 rounded-xl border border-pink-200 inline-block mb-2 font-tajawal" id="cert-name-disp">
+                        [اسم المتعلمة]
+                    </div>
+                    <div class="text-xs font-bold text-slate-600 mb-6">
+                        الصف: <span id="cert-class-disp" class="text-purple-700">12</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-6">
+                        قد أتمت بنجاح وتفوق جميع متطلبات أوراق العمل الخاصة ببيئة <strong>Visual Basic 2008</strong> لمشروع (برنامج التوقيت)، وأظهرت مهارة عالية في التخطيط، ضبط الخصائص، وكتابة التعليمات البرمجية.
+                    </p>
+
+                    <!-- Breakdown Table -->
+                    <div class="grid grid-cols-3 gap-3 text-xs mb-6">
+                        <div class="bg-purple-50 p-3 rounded-xl border border-purple-200">
+                            <span class="block text-slate-500 font-bold mb-1">ورقة عمل (3)</span>
+                            <span id="cert-ws3-score" class="text-base font-black text-purple-700">30 / 30</span>
+                        </div>
+                        <div class="bg-pink-50 p-3 rounded-xl border border-pink-200">
+                            <span class="block text-slate-500 font-bold mb-1">ورقة عمل (4)</span>
+                            <span id="cert-ws4-score" class="text-base font-black text-pink-700">35 / 35</span>
+                        </div>
+                        <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-200">
+                            <span class="block text-slate-500 font-bold mb-1">ورقة عمل (5)</span>
+                            <span id="cert-ws5-score" class="text-base font-black text-indigo-700">35 / 35</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Score Display -->
+                    <div class="flex items-center justify-center gap-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-3 rounded-xl shadow-md">
+                        <span class="font-bold text-sm">المجموع الكلي:</span>
+                        <span id="cert-total-disp" class="text-2xl font-black font-mono">100 / 100</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="p-4 bg-slate-100 border-t border-slate-200 flex justify-between items-center">
+                <button onclick="closeCertificateModal()" class="text-xs font-bold text-slate-600 hover:text-slate-800">
+                    إغلاق
+                </button>
+                <button onclick="window.print()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                    <i class="fas fa-print"></i> طباعة التقرير / حفظ كـ PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-notify" class="fixed bottom-6 left-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold transform transition-all duration-300 translate-y-24 opacity-0">
+        <i id="toast-icon" class="fas fa-check-circle text-emerald-400 text-lg"></i>
+        <span id="toast-message">رسالة إشعار</span>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+        // State Management
+        const appState = {
+            studentName: '',
+            studentClass: '',
+            studentSchool: 'ثانوية البنات',
+            scores: {
+                ws3: 0,
+                ws4: 0,
+                ws5: 0
+            },
+            ws3: {
+                addedButtons: 0,
+                addedPictures: 0,
+                addedLabels: 0,
+                completed: false
+            },
+            ws4: {
+                selected: 'Form1',
+                formText: 'Form1',
+                lbl1Text: 'Label1',
+                lbl3Text: 'Label3',
+                btn1Text: 'Button1',
+                picImage: false,
+                picSizeMode: 'Normal',
+                fontBold: false,
+                completed: false
+            },
+            ws5: {
+                exitCodeOk: false,
+                timeCodeOk: false,
+                dateCodeOk: false,
+                buildDone: false,
+                debugTested: false,
+                completed: false
+            }
+        };
+
+        // Switch Worksheets Tabs
+        function switchWorksheet(wsNumber) {
+            [3, 4, 5].forEach(num => {
+                const tab = document.getElementById(`tab-ws${num}`);
+                const pane = document.getElementById(`worksheet-${num}-pane`);
+                if (num === wsNumber) {
+                    tab.classList.add('active');
+                    tab.classList.remove('bg-white/80', 'text-slate-700');
+                    pane.classList.remove('hidden');
+                } else {
+                    tab.classList.remove('active');
+                    tab.classList.add('bg-white/80', 'text-slate-700');
+                    pane.classList.add('hidden');
+                }
+            });
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+
+        // Student Info Sync
+        function updateStudentHeader() {
+            appState.studentName = document.getElementById('student-name-input').value.trim() || 'المتعلمة المتميزة';
+            appState.studentClass = document.getElementById('student-class-input').value.trim() || '12';
+            appState.studentSchool = document.getElementById('student-school-input').value.trim() || 'ثانوية البنات';
+
+            document.getElementById('cert-name-disp').textContent = appState.studentName;
+            document.getElementById('cert-class-disp').textContent = appState.studentClass;
+            document.getElementById('cert-school-disp').textContent = appState.studentSchool;
+        }
+
+        function notify(msg, isSuccess = true) {
+            const toast = document.getElementById('toast-notify');
+            const msgEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            msgEl.textContent = msg;
+            iconEl.className = isSuccess ? 'fas fa-check-circle text-emerald-400 text-lg' : 'fas fa-exclamation-circle text-amber-400 text-lg';
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        function recalculateTotalScore() {
+            const total = appState.scores.ws3 + appState.scores.ws4 + appState.scores.ws5;
+            document.getElementById('total-score-badge').textContent = `${total} / 100`;
+            document.getElementById('overall-progress-bar').style.width = `${total}%`;
+            
+            document.getElementById('cert-ws3-score').textContent = `${appState.scores.ws3} / 30`;
+            document.getElementById('cert-ws4-score').textContent = `${appState.scores.ws4} / 35`;
+            document.getElementById('cert-ws5-score').textContent = `${appState.scores.ws5} / 35`;
+            document.getElementById('cert-total-disp').textContent = `${total} / 100`;
+        }
+
+        // ================= WORKSHEET 3 LOGIC (DRAG & DROP / CLICK) =================
+        let draggedTool = null;
+
+        function handleDragStart(e, toolType) {
+            draggedTool = toolType;
+            e.dataTransfer.setData('text/plain', toolType);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('ws3-form-dropzone').classList.add('drop-target-active');
+        }
+
+        function handleDragLeave(e) {
+            document.getElementById('ws3-form-dropzone').classList.remove('drop-target-active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('ws3-form-dropzone').classList.remove('drop-target-active');
+            if (draggedTool) {
+                addControlToForm(draggedTool);
+                draggedTool = null;
+            }
+        }
+
+        function addControlToForm(type) {
+            if (type === 'PictureBox') {
+                if (appState.ws3.addedPictures >= 1) {
+                    notify('تمت إضافة كائن PictureBox المطلوب بالفعل!', false);
+                    return;
+                }
+                appState.ws3.addedPictures++;
+                const slot = document.getElementById('slot-picturebox');
+                slot.className = "w-28 h-20 bg-slate-300 border-2 border-blue-500 rounded flex items-center justify-center p-1 text-slate-700 font-bold text-xs shadow-sm";
+                slot.innerHTML = `<i class="fas fa-image text-pink-600 text-xl ml-1"></i> PictureBox1`;
+                notify('تمت إضافة PictureBox1 بنجاح!');
+            }
+            else if (type === 'Button') {
+                if (appState.ws3.addedButtons >= 1) {
+                    notify('تمت إضافة زر Button1 المطلوب بالفعل!', false);
+                    return;
+                }
+                appState.ws3.addedButtons++;
+                const slot = document.getElementById('slot-button');
+                slot.className = "bg-gradient-to-b from-slate-100 to-slate-200 border-2 border-blue-500 px-6 py-1.5 rounded text-xs font-bold text-slate-800 shadow";
+                slot.innerHTML = `Button1`;
+                notify('تمت إضافة Button1 بنجاح!');
+            }
+            else if (type === 'Label') {
+                if (appState.ws3.addedLabels >= 4) {
+                    notify('تمت إضافة جميع العناوين الـ 4 المطلوبة!', false);
+                    return;
+                }
+                appState.ws3.addedLabels++;
+                const lblIdx = appState.ws3.addedLabels;
+                const slot = document.getElementById(`slot-label${lblIdx}`);
+                slot.className = "border border-purple-400 bg-white px-4 py-1 rounded text-xs font-bold text-purple-900 shadow-sm";
+                slot.textContent = `Label${lblIdx}`;
+                notify(`تمت إضافة Label${lblIdx} بنجاح!`);
+            }
+
+            updateWorksheet3Counters();
+        }
+
+        function updateWorksheet3Counters() {
+            const totalAdded = appState.ws3.addedButtons + appState.ws3.addedPictures + appState.ws3.addedLabels;
+            document.getElementById('ws3-added-counter').textContent = `${totalAdded} / 6`;
+            
+            document.getElementById('tool-btn-count').textContent = appState.ws3.addedButtons >= 1 ? 'مكتمل ✓' : 'مطلوب: 1';
+            document.getElementById('tool-pic-count').textContent = appState.ws3.addedPictures >= 1 ? 'مكتمل ✓' : 'مطلوب: 1';
+            document.getElementById('tool-lbl-count').textContent = appState.ws3.addedLabels >= 4 ? 'مكتمل ✓' : `متبقي: ${4 - appState.ws3.addedLabels}`;
+        }
+
+        function resetWorksheet3Canvas() {
+            appState.ws3.addedButtons = 0;
+            appState.ws3.addedPictures = 0;
+            appState.ws3.addedLabels = 0;
+            appState.ws3.completed = false;
+            appState.scores.ws3 = 0;
+
+            document.getElementById('slot-picturebox').className = "w-28 h-20 border-2 border-dashed border-slate-400 rounded flex flex-col items-center justify-center text-slate-400 text-xs transition p-1";
+            document.getElementById('slot-picturebox').innerHTML = `<i class="fas fa-image text-2xl mb-1"></i><span>مكان PictureBox</span>`;
+
+            for (let i = 1; i <= 4; i++) {
+                const s = document.getElementById(`slot-label${i}`);
+                s.className = "border-2 border-dashed border-slate-400 px-4 py-1 rounded text-xs text-slate-400";
+                s.textContent = `مكان Label${i}`;
+            }
+
+            const b = document.getElementById('slot-button');
+            b.className = "border-2 border-dashed border-slate-400 px-6 py-1.5 rounded text-xs text-slate-400";
+            b.textContent = "مكان زر الأمر (Button1)";
+
+            updateWorksheet3Counters();
+            recalculateTotalScore();
+            notify('تمت إعادة تعيين كائنات ورقة عمل (3)');
+        }
+
+        function checkWorksheet3Completion() {
+            if (appState.ws3.addedButtons === 1 && appState.ws3.addedPictures === 1 && appState.ws3.addedLabels === 4) {
+                appState.ws3.completed = true;
+                appState.scores.ws3 = 30;
+                recalculateTotalScore();
+                triggerCelebration();
+                notify('رائع جداً! تم إنجاز ورقة عمل (3) بالكامل (+30 درجة). يمكنك الانتقال لورقة عمل (4)!');
+            } else {
+                notify('يرجى استكمال إضافة جميع الكائنات المطلوبة (1 Button, 1 PictureBox, 4 Labels)', false);
+            }
+        }
+
+        // ================= WORKSHEET 4 LOGIC (PROPERTIES) =================
+        function selectWs4Control(ctrlName, event) {
+            if (event) event.stopPropagation();
+            appState.ws4.selected = ctrlName;
+            document.getElementById('ws4-selected-object-select').value = ctrlName;
+
+            // Highlight in preview
+            const ids = ['ws4-form-container', 'ws4-pic-control', 'ws4-lbl1', 'ws4-lbl2', 'ws4-lbl3', 'ws4-lbl4', 'ws4-btn1'];
+            ids.forEach(id => document.getElementById(id).classList.remove('ring-2', 'ring-pink-500'));
+
+            const map = {
+                Form1: 'ws4-form-container',
+                PictureBox1: 'ws4-pic-control',
+                Label1: 'ws4-lbl1',
+                Label2: 'ws4-lbl2',
+                Label3: 'ws4-lbl3',
+                Label4: 'ws4-lbl4',
+                Button1: 'ws4-btn1'
+            };
+            document.getElementById(map[ctrlName]).classList.add('ring-2', 'ring-pink-500');
+
+            renderWs4Properties(ctrlName);
+        }
+
+        function renderWs4Properties(ctrlName) {
+            const body = document.getElementById('ws4-properties-body');
+            body.innerHTML = '';
+
+            if (ctrlName === 'Form1') {
+                body.innerHTML = `
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية Text (عنوان النموذج):</label>
+                        <input type="text" id="prop-form-text" value="${appState.ws4.formText}" placeholder="اكتبي: برنامج التوقيت" oninput="updateWs4Prop('Form1', 'Text', this.value)" class="w-full border p-1.5 rounded font-bold text-slate-800 text-xs">
+                    </div>
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية RightToLeft:</label>
+                        <select class="w-full border p-1 rounded font-bold text-xs"><option>Yes</option><option>No</option></select>
+                    </div>
+                `;
+            } else if (ctrlName === 'PictureBox1') {
+                body.innerHTML = `
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية Image (صورة الساعة Clock):</label>
+                        <button onclick="setWs4PictureImage()" class="w-full bg-pink-100 hover:bg-pink-200 text-pink-800 font-bold py-1.5 px-3 rounded flex items-center justify-between transition">
+                            <span>${appState.ws4.picImage ? '✓ تم إدراج Clock.png' : 'استيراد صورة Clock...'}</span>
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية نمط الحجم SizeMode:</label>
+                        <select onchange="updateWs4Prop('PictureBox1', 'SizeMode', this.value)" class="w-full border p-1.5 rounded font-bold text-purple-700 text-xs">
+                            <option value="Normal" ${appState.ws4.picSizeMode === 'Normal' ? 'selected' : ''}>Normal</option>
+                            <option value="StretchImage" ${appState.ws4.picSizeMode === 'StretchImage' ? 'selected' : ''}>StretchImage</option>
+                            <option value="Zoom" ${appState.ws4.picSizeMode === 'Zoom' ? 'selected' : ''}>Zoom (المطلوب)</option>
+                            <option value="AutoSize" ${appState.ws4.picSizeMode === 'AutoSize' ? 'selected' : ''}>AutoSize</option>
+                            <option value="CenterImage" ${appState.ws4.picSizeMode === 'CenterImage' ? 'selected' : ''}>CenterImage</option>
+                        </select>
+                    </div>
+                `;
+            } else if (ctrlName === 'Label1') {
+                body.innerHTML = `
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية Text (تسمية الوقت):</label>
+                        <input type="text" value="${appState.ws4.lbl1Text}" placeholder="اكتبي: الوقت الحالي" oninput="updateWs4Prop('Label1', 'Text', this.value)" class="w-full border p-1.5 rounded font-bold text-slate-800 text-xs">
+                    </div>
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية الخط Font:</label>
+                        <button onclick="setWs4Font()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1 px-3 rounded flex items-center justify-between">
+                            <span>${appState.ws4.fontBold ? 'Tahoma, 10pt, Bold' : 'Tahoma, 8.25pt'}</span>
+                            <span class="text-pink-600 font-bold">...</span>
+                        </button>
+                    </div>
+                `;
+            } else if (ctrlName === 'Label3') {
+                body.innerHTML = `
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية Text (تسمية التاريخ):</label>
+                        <input type="text" value="${appState.ws4.lbl3Text}" placeholder="اكتبي: التاريخ الحالي" oninput="updateWs4Prop('Label3', 'Text', this.value)" class="w-full border p-1.5 rounded font-bold text-slate-800 text-xs">
+                    </div>
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية الخط Font:</label>
+                        <button onclick="setWs4Font()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1 px-3 rounded flex items-center justify-between">
+                            <span>${appState.ws4.fontBold ? 'Tahoma, 10pt, Bold' : 'Tahoma, 8.25pt'}</span>
+                            <span class="text-pink-600 font-bold">...</span>
+                        </button>
+                    </div>
+                `;
+            } else if (ctrlName === 'Button1') {
+                body.innerHTML = `
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية Text (نص زر الأمر):</label>
+                        <input type="text" value="${appState.ws4.btn1Text}" placeholder="اكتبي: خروج" oninput="updateWs4Prop('Button1', 'Text', this.value)" class="w-full border p-1.5 rounded font-bold text-slate-800 text-xs">
+                    </div>
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية الخط Font:</label>
+                        <button onclick="setWs4Font()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1 px-3 rounded flex items-center justify-between">
+                            <span>${appState.ws4.fontBold ? 'Tahoma, 10pt, Bold' : 'Tahoma, 8.25pt'}</span>
+                            <span class="text-pink-600 font-bold">...</span>
+                        </button>
+                    </div>
+                `;
+            } else {
+                body.innerHTML = `
+                    <div class="p-2 border rounded bg-slate-50">
+                        <label class="block font-bold text-slate-700 mb-1">خاصية الخط Font:</label>
+                        <button onclick="setWs4Font()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1 px-3 rounded flex items-center justify-between">
+                            <span>${appState.ws4.fontBold ? 'Tahoma, 10pt, Bold' : 'Tahoma, 8.25pt'}</span>
+                            <span class="text-pink-600 font-bold">...</span>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function updateWs4Prop(ctrl, prop, val) {
+            if (ctrl === 'Form1' && prop === 'Text') {
+                appState.ws4.formText = val;
+                document.getElementById('ws4-form-title').textContent = val || 'Form1';
+            } else if (ctrl === 'Label1' && prop === 'Text') {
+                appState.ws4.lbl1Text = val;
+                document.getElementById('ws4-lbl1-text').textContent = val || 'Label1';
+            } else if (ctrl === 'Label3' && prop === 'Text') {
+                appState.ws4.lbl3Text = val;
+                document.getElementById('ws4-lbl3-text').textContent = val || 'Label3';
+            } else if (ctrl === 'Button1' && prop === 'Text') {
+                appState.ws4.btn1Text = val;
+                document.getElementById('ws4-btn1-text').textContent = val || 'Button1';
+            } else if (ctrl === 'PictureBox1' && prop === 'SizeMode') {
+                appState.ws4.picSizeMode = val;
+                applyPictureSizeMode(val);
+            }
+            updateWorksheet4Progress();
+        }
+
+        function setWs4PictureImage() {
+            appState.ws4.picImage = true;
+            const img = document.getElementById('ws4-clock-img');
+            const placeholder = document.getElementById('ws4-pic-placeholder');
+            img.src = "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=80";
+            img.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            renderWs4Properties('PictureBox1');
+            updateWorksheet4Progress();
+            notify('تم استيراد صورة الساعة Clock بنجاح!');
+        }
+
+        function applyPictureSizeMode(mode) {
+            const img = document.getElementById('ws4-clock-img');
+            if (mode === 'Zoom') {
+                img.className = "w-full h-full object-contain";
+            } else if (mode === 'StretchImage') {
+                img.className = "w-full h-full object-fill";
+            } else {
+                img.className = "w-full h-full object-cover";
+            }
+        }
+
+        function setWs4Font() {
+            appState.ws4.fontBold = true;
+            // Apply font to elements
+            ['ws4-form-title', 'ws4-lbl1-text', 'ws4-lbl2-text', 'ws4-lbl3-text', 'ws4-lbl4-text', 'ws4-btn1-text'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('font-bold', 'text-slate-900');
+            });
+            renderWs4Properties(appState.ws4.selected);
+            updateWorksheet4Progress();
+            notify('تم ضبط الخط لجميع الكائنات: Tahoma, 10, Bold بنجاح!');
+        }
+
+        function applyCenterInForm() {
+            const container = document.getElementById('ws4-form-container');
+            container.classList.add('animate-pulse');
+            setTimeout(() => {
+                container.classList.remove('animate-pulse');
+                notify('تم تطبيق التوسيط الأفقي Center in Form > Horizontally بنجاح!');
+            }, 300);
+        }
+
+        function updateWorksheet4Progress() {
+            let count = 0;
+            if (appState.ws4.formText.trim() === 'برنامج التوقيت') count++;
+            if (appState.ws4.lbl1Text.trim() === 'الوقت الحالي') count++;
+            if (appState.ws4.lbl3Text.trim() === 'التاريخ الحالي') count++;
+            if (appState.ws4.btn1Text.trim() === 'خروج') count++;
+            if (appState.ws4.picImage && appState.ws4.picSizeMode === 'Zoom') count++;
+            if (appState.ws4.fontBold) count++;
+
+            document.getElementById('ws4-props-counter').textContent = `${count} / 6`;
+            return count;
+        }
+
+        function checkWorksheet4Completion() {
+            const scoreCount = updateWorksheet4Progress();
+            if (scoreCount >= 5) {
+                appState.ws4.completed = true;
+                appState.scores.ws4 = 35;
+                recalculateTotalScore();
+                triggerCelebration();
+                notify('أحسنتِ صنعاً! تم ضبط جميع الخصائص بدقة واحترافية (+35 درجة).');
+            } else {
+                notify('يرجى التحقق من ضبط كافة الخصائص: النصوص، صورة Clock، نمط Zoom، والخط السميك.', false);
+            }
+        }
+
+        // ================= WORKSHEET 5 LOGIC (CODE & BUILD) =================
+        function insertSampleCode(inputId, codeStr) {
+            document.getElementById(inputId).value = codeStr;
+            validateCodeLive();
+        }
+
+        function validateCodeLive() {
+            const exitVal = document.getElementById('code-btn-exit').value.trim().toLowerCase();
+            const timeVal = document.getElementById('code-lbl-time').value.trim().toLowerCase().replace(/\s+/g, '');
+            const dateVal = document.getElementById('code-lbl-date').value.trim().toLowerCase().replace(/\s+/g, '');
+
+            appState.ws5.exitCodeOk = (exitVal === 'end');
+            appState.ws5.timeCodeOk = (timeVal === 'label2.text=timestring');
+            appState.ws5.dateCodeOk = (dateVal === 'label4.text=datestring');
+
+            let tasksDone = 0;
+            if (appState.ws5.exitCodeOk) tasksDone++;
+            if (appState.ws5.timeCodeOk) tasksDone++;
+            if (appState.ws5.dateCodeOk) tasksDone++;
+            if (appState.ws5.buildDone) tasksDone++;
+
+            document.getElementById('ws5-tasks-counter').textContent = `${tasksDone} / 4`;
+
+            const statusMsg = document.getElementById('code-status-msg');
+            if (appState.ws5.exitCodeOk && appState.ws5.timeCodeOk && appState.ws5.dateCodeOk) {
+                statusMsg.textContent = 'التعليمات البرمجية صحيحة 100%! يمكنك الآن تشغيل البرنامج F5 أو بناؤه.';
+                statusMsg.className = 'text-emerald-700 font-bold';
+            } else {
+                statusMsg.textContent = 'يوجد أجزاء تحتاج استكمال في التعليمات البرمجية...';
+                statusMsg.className = 'text-amber-700 font-bold';
+            }
+        }
+
+        function testRunDebugF5() {
+            validateCodeLive();
+            const modal = document.getElementById('debug-runtime-modal');
+            const content = document.getElementById('debug-modal-content');
+
+            // Format Live Time & Date
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            hours = hours % 12 || 12;
+
+            if (appState.ws5.timeCodeOk) {
+                document.getElementById('runtime-clock-display').textContent = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+                document.getElementById('runtime-clock-display').style.color = 'red';
+            } else {
+                document.getElementById('runtime-clock-display').textContent = "Label2 (لم يُكتب الكود)";
+                document.getElementById('runtime-clock-display').style.color = 'gray';
+            }
+
+            if (appState.ws5.dateCodeOk) {
+                const y = now.getFullYear();
+                const m = String(now.getMonth() + 1).padStart(2, '0');
+                const d = String(now.getDate()).padStart(2, '0');
+                document.getElementById('runtime-date-display').textContent = `${y}/${m}/${d}`;
+                document.getElementById('runtime-date-display').style.color = 'red';
+            } else {
+                document.getElementById('runtime-date-display').textContent = "Label4 (لم يُكتب الكود)";
+                document.getElementById('runtime-date-display').style.color = 'gray';
+            }
+
+            appState.ws5.debugTested = true;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeDebugRuntime(fromExitBtn = false) {
+            const modal = document.getElementById('debug-runtime-modal');
+            modal.classList.add('hidden');
+            if (fromExitBtn) {
+                if (appState.ws5.exitCodeOk) {
+                    notify('تم إنهاء البرنامج بنجاح بفضل تعليمة End!');
+                } else {
+                    notify('ملاحظة: زر خروج أغلق المحاكي، لكن لم يتم التحقق من كتابة End في الكود.', false);
+                }
+            }
+        }
+
+        function buildExecutableWelcome() {
+            validateCodeLive();
+            appState.ws5.buildDone = true;
+            let tasksDone = (appState.ws5.exitCodeOk ? 1 : 0) + (appState.ws5.timeCodeOk ? 1 : 0) + (appState.ws5.dateCodeOk ? 1 : 0) + 1;
+            document.getElementById('ws5-tasks-counter').textContent = `${tasksDone} / 4`;
+            
+            triggerCelebration();
+            notify('تم بناء الملف التنفيذي Welcome.exe بنجاح تام على القرص الصلب (Build Succeeded)!');
+        }
+
+        function checkWorksheet5Completion() {
+            validateCodeLive();
+            if (appState.ws5.exitCodeOk && appState.ws5.timeCodeOk && appState.ws5.dateCodeOk && appState.ws5.buildDone) {
+                appState.ws5.completed = true;
+                appState.scores.ws5 = 35;
+                recalculateTotalScore();
+                triggerCelebration();
+                notify('تهانينا البالغة! أتممتِ ورقة عمل (5) وحققتِ الدرجة النهائية 100/100!');
+                openCertificateModal();
+            } else {
+                notify('تأكدي من صحة الأكواد الثلاثة (End، TimeString، DateString) ثم اضغطي على Build Welcome.', false);
+            }
+        }
+
+        // ================= CERTIFICATE & CELEBRATION =================
+        function triggerCelebration() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function openCertificateModal() {
+            updateStudentHeader();
+            recalculateTotalScore();
+            document.getElementById('certificate-modal').classList.remove('hidden');
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificate-modal').classList.add('hidden');
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            selectWs4Control('Form1');
+            updateWorksheet3Counters();
+            updateStudentHeader();
+        };
+    </script>
+</body>
+</html>
